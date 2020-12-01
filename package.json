@@ -1,0 +1,59 @@
+{
+  "name": "procheck",
+  "description": "Project convention checker",
+  "private": true,
+  "version": "0.0.0",
+  "main": "lib/main.js",
+  "scripts": {
+    "build": "tsc",
+    "package": "ncc build --source-map --license licenses.txt",
+    "check:lint": "eslint src/**/*.ts",
+    "check:format": "prettier --check **/*.ts",
+    "static:analysis": "run-p check:lint check:format",
+    "test:unit": "jest --coverage --passWithNoTests"
+  },
+  "dependencies": {
+    "@actions/core": "^1.2.6",
+    "node-fetch": "^2.6.1"
+  },
+  "devDependencies": {
+    "@types/jest": "^26.0.15",
+    "@types/node": "^14.14.9",
+    "@types/node-fetch": "^2.5.7",
+    "@typescript-eslint/parser": "^4.8.1",
+    "@vercel/ncc": "^0.25.1",
+    "cz-conventional-changelog": "^3.3.0",
+    "eslint": "^7.13.0",
+    "eslint-plugin-github": "^4.1.1",
+    "eslint-plugin-jest": "^23.20.0",
+    "husky": "^4.3.0",
+    "jest": "^24.9.0",
+    "jest-circus": "^26.4.2",
+    "js-yaml": "^3.14.0",
+    "npm-run-all": "^4.1.5",
+    "prettier": "2.1.1",
+    "ts-jest": "^24.3.0",
+    "typescript": "^4.0.2"
+  },
+  "author": "Kevin Hermawan",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hyperjumptech/procheck.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hyperjumptech/procheck/issues"
+  },
+  "homepage": "https://github.com/hyperjumptech/procheck#readme",
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run build && npm run package && git add .",
+      "prepare-commit-msg": "exec < /dev/tty && git cz --hook || true"
+    }
+  }
+}
