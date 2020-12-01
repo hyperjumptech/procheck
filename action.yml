@@ -1,0 +1,13 @@
+name: 'procheck'
+author: 'Hyperjump'
+description: 'A project convention checker'
+inputs:
+  repository:
+    required: true
+    description: 'Configs repository'
+  configPath:
+    required: true
+    description: 'Configs path'
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
