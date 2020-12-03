@@ -8,6 +8,9 @@ inputs:
   configPath:
     required: true
     description: 'Configs path'
+  token:
+    required: false,
+    description: 'Github PAT token to fetch contents from a private repository'
 runs:
   using: 'node12'
   main: 'dist/index.js'
