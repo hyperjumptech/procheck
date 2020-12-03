@@ -9,9 +9,9 @@ async function run(): Promise<void> {
   try {
     const repository: string = core.getInput('repository');
     const configPath: string = core.getInput('configPath');
-    const githubToken: string = core.getInput('token');
+    const token: string = core.getInput('token');
 
-    const configs = await getConfigs({ repository, configPath, githubToken });
+    const configs = await getConfigs({ repository, configPath, token });
 
     for (const config of configs) {
       if (fs.existsSync(config?.filePath)) {
