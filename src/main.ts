@@ -14,12 +14,20 @@ async function run(): Promise<void> {
 
     for (const config of configs) {
       if (fs.existsSync(config?.filePath)) {
-        for (const content of config?.contents ?? []) {
-          checkWordsExistence({
-            filePath: config?.filePath,
-            contentValue: content?.value,
-            errorMessage: content?.errorMessage
-          });
+        // Check if config contents is exists, an array, and has minimal 1 array items
+        if (
+          config?.contents &&
+          Array.isArray(config?.contents) &&
+          config?.contents.length > 0
+        ) {
+          // Check word existence
+          for (const content of config?.contents) {
+            checkWordsExistence({
+              filePath: config?.filePath,
+              contentValue: content?.value,
+              errorMessage: content?.errorMessage
+            });
+          }
         }
       } else {
         core.setFailed(`'${config?.filePath}' doesn't exist`);

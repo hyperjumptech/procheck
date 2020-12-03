@@ -44,7 +44,6 @@ const core = __importStar(__webpack_require__(186));
 const checkWordsExistence_1 = __webpack_require__(525);
 const getConfigs_1 = __webpack_require__(368);
 function run() {
-    var _a;
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const repository = core.getInput('repository');
@@ -52,12 +51,18 @@ function run() {
             const configs = yield getConfigs_1.getConfigs({ repository, configPath });
             for (const config of configs) {
                 if (fs_1.default.existsSync(config === null || config === void 0 ? void 0 : config.filePath)) {
-                    for (const content of (_a = config === null || config === void 0 ? void 0 : config.contents) !== null && _a !== void 0 ? _a : []) {
-                        checkWordsExistence_1.checkWordsExistence({
-                            filePath: config === null || config === void 0 ? void 0 : config.filePath,
-                            contentValue: content === null || content === void 0 ? void 0 : content.value,
-                            errorMessage: content === null || content === void 0 ? void 0 : content.errorMessage
-                        });
+                    // Check if config contents is exists, an array, and has minimal 1 array items
+                    if ((config === null || config === void 0 ? void 0 : config.contents) &&
+                        Array.isArray(config === null || config === void 0 ? void 0 : config.contents) &&
+                        (config === null || config === void 0 ? void 0 : config.contents.length) > 0) {
+                        // Check word existence
+                        for (const content of config === null || config === void 0 ? void 0 : config.contents) {
+                            checkWordsExistence_1.checkWordsExistence({
+                                filePath: config === null || config === void 0 ? void 0 : config.filePath,
+                                contentValue: content === null || content === void 0 ? void 0 : content.value,
+                                errorMessage: content === null || content === void 0 ? void 0 : content.errorMessage
+                            });
+                        }
                     }
                 }
                 else {
