@@ -49,8 +49,8 @@ function run() {
         try {
             const repository = core.getInput('repository');
             const configPath = core.getInput('configPath');
-            const token = core.getInput('token');
-            const configs = yield getConfigs_1.getConfigs({ repository, configPath, token });
+            const githubToken = core.getInput('githubToken');
+            const configs = yield getConfigs_1.getConfigs({ repository, configPath, githubToken });
             for (const config of configs) {
                 if (fs_1.default.existsSync(config === null || config === void 0 ? void 0 : config.filePath)) {
                     for (const content of (_a = config === null || config === void 0 ? void 0 : config.contents) !== null && _a !== void 0 ? _a : []) {
@@ -139,10 +139,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getConfigs = void 0;
 const node_fetch_1 = __importDefault(__webpack_require__(467));
-exports.getConfigs = ({ repository, configPath, token }) => __awaiter(void 0, void 0, void 0, function* () {
+exports.getConfigs = ({ repository, configPath, githubToken }) => __awaiter(void 0, void 0, void 0, function* () {
     const url = `https://api.github.com/repos/${repository}/contents/${configPath}`;
-    const hasToken = token !== '' && {
-        Authorization: `token ${token}`
+    const hasToken = githubToken && {
+        Authorization: `token ${githubToken}`
     };
     const res = yield node_fetch_1.default(url, {
         headers: Object.assign(Object.assign({}, hasToken), { Accept: 'application/vnd.github.v3.raw' })

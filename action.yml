@@ -8,7 +8,7 @@ inputs:
   configPath:
     required: true
     description: 'Configs path'
-  token:
+  githubToken:
     required: false,
     description: 'Github PAT token to fetch contents from a private repository'
 runs:
