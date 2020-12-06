@@ -44,13 +44,11 @@ jobs:
       - name: package project
         run: npm run package
 
-      - name: test on public configs
       - uses: ./
         with:
           repository: 'hyperjumptech/procheck-configs'
           configPath: 'procheck-integration-test/procheck.json'
 
-      - name: test on private configs
       - uses: ./
         with:
           repository: 'hyperjumptech/procheck-private-configs'
