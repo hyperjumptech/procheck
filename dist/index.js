@@ -162,7 +162,7 @@ const core = __importStar(__webpack_require__(186));
 exports.getConfigs = ({ repository, configPath, githubToken }) => __awaiter(void 0, void 0, void 0, function* () {
     const url = `https://api.github.com/repos/${repository}/contents/${configPath}`;
     const withToken = githubToken && {
-        Authorization: `token ${githubToken}`
+        Authorization: `Bearer ${githubToken}`
     };
     const res = yield node_fetch_1.default(url, {
         headers: Object.assign(Object.assign({}, withToken), { Accept: 'application/vnd.github.v3.raw' })
