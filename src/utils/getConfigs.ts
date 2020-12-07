@@ -26,7 +26,7 @@ export const getConfigs = async ({
   });
 
   const json = await res.json();
-  core.info(`Headers: \n${withToken}`);
+  core.info(`Headers: \n${JSON.stringify(withToken)}`);
   core.info(`Output: \n${JSON.stringify(json)}`);
 
   return json;
