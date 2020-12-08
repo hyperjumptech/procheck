@@ -49,7 +49,8 @@ function run() {
         try {
             const repository = core.getInput('repository');
             const configPath = core.getInput('configPath');
-            const configs = yield getConfigs_1.getConfigs({ repository, configPath });
+            const githubToken = core.getInput('githubToken');
+            const configs = yield getConfigs_1.getConfigs({ repository, configPath, githubToken });
             for (const config of configs) {
                 if (fs_1.default.existsSync(config === null || config === void 0 ? void 0 : config.filePath)) {
                     for (const content of (_a = config === null || config === void 0 ? void 0 : config.contents) !== null && _a !== void 0 ? _a : []) {
@@ -123,6 +124,25 @@ exports.checkWordsExistence = ({ filePath, contentValue, errorMessage }) => {
 
 "use strict";
 
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -138,14 +158,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getConfigs = void 0;
 const node_fetch_1 = __importDefault(__webpack_require__(467));
-exports.getConfigs = ({ repository, configPath }) => __awaiter(void 0, void 0, void 0, function* () {
+const core = __importStar(__webpack_require__(186));
+exports.getConfigs = ({ repository, configPath, githubToken }) => __awaiter(void 0, void 0, void 0, function* () {
     const url = `https://api.github.com/repos/${repository}/contents/${configPath}`;
+    const withToken = githubToken && {
+        Authorization: `Bearer ${githubToken}`
+    };
     const res = yield node_fetch_1.default(url, {
-        headers: {
-            Accept: 'application/vnd.github.v3.raw'
-        }
+        headers: Object.assign(Object.assign({}, withToken), { Accept: 'application/vnd.github.v3.raw' })
     });
     const json = yield res.json();
+    core.info(`Headers: \n${JSON.stringify(withToken)}`);
+    core.info(`Output: \n${JSON.stringify(json)}`);
     return json;
 });
 
