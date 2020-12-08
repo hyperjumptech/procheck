@@ -44,29 +44,52 @@ const core = __importStar(__webpack_require__(186));
 const checkWordsExistence_1 = __webpack_require__(525);
 const getConfigs_1 = __webpack_require__(368);
 function run() {
-    var _a;
     return __awaiter(this, void 0, void 0, function* () {
         try {
+            // Get input from action
             const repository = core.getInput('repository');
             const configPath = core.getInput('configPath');
             const githubToken = core.getInput('githubToken');
+            // Get config from repository
             const configs = yield getConfigs_1.getConfigs({ repository, configPath, githubToken });
-            for (const config of configs) {
-                if (fs_1.default.existsSync(config === null || config === void 0 ? void 0 : config.filePath)) {
-                    for (const content of (_a = config === null || config === void 0 ? void 0 : config.contents) !== null && _a !== void 0 ? _a : []) {
-                        checkWordsExistence_1.checkWordsExistence({
-                            filePath: config === null || config === void 0 ? void 0 : config.filePath,
-                            contentValue: content === null || content === void 0 ? void 0 : content.value,
-                            errorMessage: content === null || content === void 0 ? void 0 : content.errorMessage
-                        });
+            // Check if configs is an array and it has minimum length 1 item
+            if (Array.isArray(configs) && configs.length > 0) {
+                for (const config of configs) {
+                    // Check if file exists
+                    if (fs_1.default.existsSync(config === null || config === void 0 ? void 0 : config.filePath)) {
+                        // Check if user wants to only ensure file existence or with words existence
+                        if (config === null || config === void 0 ? void 0 : config.contents) {
+                            // Check if config.contents is an array and it has minimum length 1 item
+                            if (Array.isArray(config === null || config === void 0 ? void 0 : config.contents) &&
+                                (config === null || config === void 0 ? void 0 : config.contents.length) > 0) {
+                                // Search for words existence
+                                for (const content of config === null || config === void 0 ? void 0 : config.contents) {
+                                    checkWordsExistence_1.checkWordsExistence({
+                                        filePath: config === null || config === void 0 ? void 0 : config.filePath,
+                                        contentValue: content === null || content === void 0 ? void 0 : content.value,
+                                        errorMessage: content === null || content === void 0 ? void 0 : content.errorMessage
+                                    });
+                                }
+                            }
+                            else {
+                                // Throw an error if config contents is not an array and does not have minimal 1 item
+                                throw Error('Config contents must be an array and has minimal 1 item!');
+                            }
+                        }
+                    }
+                    else {
+                        // Throw an error if the file does not exists.
+                        throw Error(`'${config === null || config === void 0 ? void 0 : config.filePath}' doesn't exist`);
                     }
                 }
-                else {
-                    core.setFailed(`'${config === null || config === void 0 ? void 0 : config.filePath}' doesn't exist`);
-                }
+            }
+            else {
+                // Throw an error if configs is not an array and does not have minimal 1 item
+                throw Error('Configs must be an array and has minimal 1 item!');
             }
         }
         catch (error) {
+            // Set workload to fail with the error message
             core.setFailed(error.message);
         }
     });
