@@ -1,16 +1,24 @@
-name: 'procheck'
-author: 'Hyperjump'
+author: '@hyperjumptech'
+name: '@hyperjumptech/procheck'
 description: 'A project convention checker'
+
+branding:
+  icon: 'check-circle'
+  color: 'gray-dark'
+
 inputs:
   repository:
     required: true
-    description: 'Configs repository'
+    description: 'Repository where the config stored'
+
   configPath:
     required: true
-    description: 'Configs path'
+    description: 'The location of config file inside repository'
+
   githubToken:
     required: false,
     description: 'Github PAT token to fetch configs from a private repository'
+
 runs:
   using: 'node12'
   main: 'dist/index.js'
