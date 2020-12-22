@@ -107,7 +107,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.checkWordsExistence = void 0;
 const fs_1 = __importDefault(__webpack_require__(747));
 const core = __importStar(__webpack_require__(186));
-const checkWordsExistence = ({ filePath, contentValue, errorMessage }) => {
+exports.checkWordsExistence = ({ filePath, contentValue, errorMessage }) => {
     const words = fs_1.default.readFileSync(filePath, {
         encoding: 'utf8'
     });
@@ -115,7 +115,6 @@ const checkWordsExistence = ({ filePath, contentValue, errorMessage }) => {
         core.setFailed(errorMessage !== null && errorMessage !== void 0 ? errorMessage : `'${contentValue}' doesn't found`);
     }
 };
-exports.checkWordsExistence = checkWordsExistence;
 
 
 /***/ }),
@@ -140,7 +139,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getConfigs = void 0;
 const node_fetch_1 = __importDefault(__webpack_require__(467));
-const getConfigs = ({ repository, configPath, githubToken }) => __awaiter(void 0, void 0, void 0, function* () {
+exports.getConfigs = ({ repository, configPath, githubToken }) => __awaiter(void 0, void 0, void 0, function* () {
     const url = `https://api.github.com/repos/${repository}/contents/${configPath}`;
     const withToken = githubToken && {
         Authorization: `Bearer ${githubToken}`
@@ -151,7 +150,6 @@ const getConfigs = ({ repository, configPath, githubToken }) => __awaiter(void 0
     const json = yield res.json();
     return json;
 });
-exports.getConfigs = getConfigs;
 
 
 /***/ }),

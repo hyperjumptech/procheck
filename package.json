@@ -2,7 +2,7 @@
   "name": "procheck",
   "description": "Project convention checker",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.1",
   "main": "lib/main.js",
   "scripts": {
     "build": "tsc",
