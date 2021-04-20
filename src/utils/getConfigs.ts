@@ -14,6 +14,7 @@ export const getConfigs = async ({
   githubToken
 }: GetConfig): Promise<Config[]> => {
   const url = `https://api.github.com/repos/${repository}/contents/${configPath}`;
+
   const withToken = githubToken && {
     Authorization: `Bearer ${githubToken}`
   };
