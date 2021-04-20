@@ -19,7 +19,8 @@ async function run(): Promise<void> {
           checkWordsExistence({
             filePath: config?.filePath,
             contentValue: content?.value,
-            errorMessage: content?.errorMessage
+            errorMessage: content?.errorMessage,
+            caseSensitive: content?.caseSensitive
           });
         }
       } else {
