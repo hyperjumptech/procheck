@@ -145,7 +145,10 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getConfigs = void 0;
 const node_fetch_1 = __importDefault(__webpack_require__(467));
 exports.getConfigs = ({ repository, configPath, githubToken }) => __awaiter(void 0, void 0, void 0, function* () {
-    const url = `https://api.github.com/repos/${repository}/contents/${configPath}`;
+    const path = configPath.includes('.json')
+        ? configPath
+        : `${configPath}/procheck.json`;
+    const url = `https://api.github.com/repos/${repository}/contents/${path}`;
     const withToken = githubToken && {
         Authorization: `Bearer ${githubToken}`
     };
