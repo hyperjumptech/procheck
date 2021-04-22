@@ -13,7 +13,11 @@ export const getConfigs = async ({
   configPath,
   githubToken
 }: GetConfig): Promise<Config[]> => {
-  const url = `https://api.github.com/repos/${repository}/contents/${configPath}`;
+  const path = configPath.includes('.json')
+    ? configPath
+    : `${configPath}/procheck.json`;
+
+  const url = `https://api.github.com/repos/${repository}/contents/${path}`;
 
   const withToken = githubToken && {
     Authorization: `Bearer ${githubToken}`
